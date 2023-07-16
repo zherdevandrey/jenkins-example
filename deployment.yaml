@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jenkins-example
+  name: jenkins-example
+spec:
+  ports:
+    - name: http
+      port: 8090
+  selector:
+    app: jenkins-example
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jenkins-example
+  name: jenkins-example
+spec:
+  replicas: 1
+  minReadySeconds: 45
+  selector:
+    matchLabels:
+      app: jenkins-example
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: jenkins-example
+    spec:
+      containers:
+        - image: zherdev/jenkins-example:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
+          name: jenkins-example
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+---
