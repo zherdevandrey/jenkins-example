@@ -15,8 +15,8 @@ public class JenkinsSimpleExampleApplication {
 
 	@GetMapping("/")
 	public String test() {
-		System.out.println("test");
-		return "test";
+		System.out.println("dev");
+		return "dev";
 	}
 
     public static void main(String[] args) {

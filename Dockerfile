@@ -1,4 +1,5 @@
-FROM openjdk:17-oracle
-ADD target/jenkins-example-0.0.1-SNAPSHOT.jar jenkins-example-0.0.1-SNAPSHOT.jar
+FROM openjdk:11-oracle
+WORKDIR /app
+ADD target/*.jar /app/jenkins-example.jar
 EXPOSE 8090
-ENTRYPOINT ["java", "-jar", "jenkins-example-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "jenkins-example.jar"]

@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN'
+    }
+    environment {
+        registry = "zherdev/jenkins-example"
+        registryCredential = 'dockerhub_id'
+        gitCredential = 'git_id'
+        dockerImage = ''
+    }
+
+    stages {
+
+        stage('git checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/${branch}']],
+                    extensions: [],
+                    userRemoteConfigs: [[credentialsId: 'git', url: 'git@github.com:zherdevandrey/jenkins-example.git']]])
+            }
+        }
+        stage ('maven build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage ("docker build") {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage('push image') {
+            steps{
+                script {
+                    docker.withRegistry('', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+
+    }
+}
