@@ -8,7 +8,7 @@ def call(){
         dir('helm/') {
             sh '''
                 tar -czvf helm.tgz .
-                curl -u $USER:$PASS http://localhost:8081/repository/helm/ --upload-file helm.tgz -v
+                curl -u admin:123 http://localhost:8081/repository/helm/ --upload-file helm.tgz -v
             '''
         }
      }
