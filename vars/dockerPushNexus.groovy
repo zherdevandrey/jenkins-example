@@ -5,7 +5,7 @@ def call(String repoName, String artifactId, String version){
              usernameVariable: "USER",
              passwordVariable: "PASS"
      )]) {
-         sh "docker login -u '$USER' -p '$PASS' nexus:8081"
+         sh "docker login -u '$USER' -p '$PASS' localhost:8082"
      }
 
     sh "docker push ${repoName}/${artifactId}:${version}"

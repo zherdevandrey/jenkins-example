@@ -1,7 +1,8 @@
 FROM jenkins/jenkins:jdk17
 
 USER root
-#DOCKER
+#JENKINS
+COPY daemon.json /etc/docker/daemon.json
 RUN apt-get update -qq \
     && apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
@@ -34,3 +35,4 @@ RUN chmod 700 get_helm.sh
 RUN ./get_helm.sh
 RUN curl https://get.datree.io | /bin/bash
 RUN apt-get install unzip
+
