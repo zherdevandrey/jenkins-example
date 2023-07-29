@@ -6,7 +6,7 @@ pipeline {
     agent any
 
     parameters{
-        choice(name: 'action', choices: 'create\nDestroy')
+        choice(name: 'action', choices: 'create\nDestroy\nSkip sonar')
     }
 
     environment {
@@ -28,37 +28,30 @@ pipeline {
                 }
             }
         }
-        stage('Mvn unit test') {
+        stage('Mvn test') {
             when { expression {  params.action == 'create' } }
             steps {
                 script {
-                    //mvnTest()
-                }
-            }
-        }
-        stage('Mvn integration test') {
-            steps {
-                script {
-                    //mvnIntegrationTest()
+                    mvnTest()
                 }
             }
         }
         stage('Static code analysis: Sonarqube'){
-            when { expression {  params.action == 'create' } }
+            when { expression {  params.action != 'Skip sonar' } }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
-                   //staticCodeAnalysis(SonarQubecredentialsId)
+                   staticCodeAnalysis(SonarQubecredentialsId)
                }
             }
         }
 
         stage('Quality Gate Status Check : Sonarqube'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'Skip sonar' } }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
-                   //qualityGateStatus(SonarQubecredentialsId)
+                   qualityGateStatus(SonarQubecredentialsId)
                }
             }
         }
@@ -73,11 +66,11 @@ pipeline {
         }
 
         stage('Docker image build'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'Skip sonar' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
-                    //dockerBuild(repoName, pom.artifactId, pom.version)
+                    dockerBuild(repoName, pom.artifactId, pom.version)
                }
             }
         }
@@ -87,18 +80,18 @@ pipeline {
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
-                    //dockerPush(repoName, pom.artifactId, pom.version)
+                    dockerPush(repoName, pom.artifactId, pom.version)
                }
             }
         }
 
         stage('Minikube deploy'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'Skip sonar' } }
             steps{
                script{
 
                     withKubeConfig(credentialsId: 'mykubeconfig', namespace: '', restrictKubeConfigAccess: false) {
-                        //sh "helm install jenkins-example ./helm/"
+                        sh "helm install jenkins-example ./helm/"
                     }
 
                }
