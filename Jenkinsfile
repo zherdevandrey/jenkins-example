@@ -37,7 +37,7 @@ pipeline {
             }
         }
         stage('Static code analysis: Sonarqube'){
-            when { expression {  params.action != 'crete' } }
+            when { expression {  params.action != 'create' } }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
@@ -47,7 +47,7 @@ pipeline {
         }
 
         stage('Quality Gate Status Check : Sonarqube'){
-         when { expression {  params.action != 'crete' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
@@ -66,7 +66,7 @@ pipeline {
         }
 
         stage('Docker image build'){
-         when { expression {  params.action != 'crete' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
@@ -86,7 +86,7 @@ pipeline {
         }
 
         stage('Minikube deploy'){
-         when { expression {  params.action != 'crete' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
 
