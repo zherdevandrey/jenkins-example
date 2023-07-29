@@ -57,7 +57,7 @@ pipeline {
         }
 
         stage('Mvn build'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
                    mvnBuild()
@@ -66,7 +66,7 @@ pipeline {
         }
 
         stage('Docker image build'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
@@ -86,7 +86,7 @@ pipeline {
         }
 
         stage('Docker image push docker hub'){
-         when { expression {  params.action == 'create' } }
+         when { expression {  params.action != 'create' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
