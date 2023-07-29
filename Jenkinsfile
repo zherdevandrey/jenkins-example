@@ -1,6 +1,6 @@
 @Library('my-shared-library') _
 
-def repoName = 'zherdev'
+def repoName = 'docker'
 
 pipeline {
     agent any
