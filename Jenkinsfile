@@ -1,6 +1,6 @@
 @Library('my-shared-library') _
 
-def repoName = 'localhost:8083'
+def repoName = 'localhost:8082'
 
 pipeline {
     agent any
@@ -66,7 +66,7 @@ pipeline {
         }
 
         stage('Docker image build'){
-         when { expression {  params.action != 'create' } }
+         when { expression {  params.action == 'create' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
