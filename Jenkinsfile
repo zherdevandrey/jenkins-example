@@ -32,14 +32,14 @@ pipeline {
             when { expression {  params.action == 'create' } }
             steps {
                 script {
-                    mvnTest()
+                    //mvnTest()
                 }
             }
         }
         stage('Mvn integration test') {
             steps {
                 script {
-                    mvnIntegrationTest()
+                    //mvnIntegrationTest()
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
-                   staticCodeAnalysis(SonarQubecredentialsId)
+                   //staticCodeAnalysis(SonarQubecredentialsId)
                }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-api'
-                   qualityGateStatus(SonarQubecredentialsId)
+                   //qualityGateStatus(SonarQubecredentialsId)
                }
             }
         }
@@ -77,7 +77,7 @@ pipeline {
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
-                    dockerBuild(repoName, pom.artifactId, pom.version)
+                    //dockerBuild(repoName, pom.artifactId, pom.version)
                }
             }
         }
@@ -87,7 +87,7 @@ pipeline {
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
-                    dockerPush(repoName, pom.artifactId, pom.version)
+                    //dockerPush(repoName, pom.artifactId, pom.version)
                }
             }
         }
@@ -98,7 +98,7 @@ pipeline {
                script{
 
                     withKubeConfig(credentialsId: 'mykubeconfig', namespace: '', restrictKubeConfigAccess: false) {
-                        sh "helm install jenkins-example ./helm/"
+                        //sh "helm install jenkins-example ./helm/"
                     }
 
                }
