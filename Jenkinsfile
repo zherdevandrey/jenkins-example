@@ -85,6 +85,15 @@ pipeline {
             }
         }
 
+        stage('Helm image push docker nexus'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                    helmPushNexus()
+               }
+            }
+        }
+
         stage('Docker image push docker hub'){
          when { expression {  params.action != 'create' } }
             steps{
