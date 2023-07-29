@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     gitCheckout(
-                        branch: "dev",
+                        branch: "helm",
                         url: "https://github.com/zherdevandrey/jenkins-example.git"
                     )
                 }
