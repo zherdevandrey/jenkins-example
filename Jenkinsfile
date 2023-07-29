@@ -75,7 +75,17 @@ pipeline {
             }
         }
 
-        stage('Docker image push'){
+        stage('Docker image push docker nexus'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                    def pom = readMavenPom file: 'pom.xml'
+                    dockerPushNexus(repoName, pom.artifactId, pom.version)
+               }
+            }
+        }
+
+        stage('Docker image push docker hub'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
