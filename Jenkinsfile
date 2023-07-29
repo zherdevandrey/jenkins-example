@@ -96,7 +96,11 @@ pipeline {
          when { expression {  params.action == 'create' } }
             steps{
                script{
-                    minikubeDeploy()
+
+                    withKubeConfig(credentialsId: 'mykubeconfig', namespace: '', restrictKubeConfigAccess: false) {
+                        sh "helm install jenkins-example ./helm/"
+                    }
+
                }
             }
         }

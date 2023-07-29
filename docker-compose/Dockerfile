@@ -27,3 +27,10 @@ RUN apt install kubectl
 COPY ca.crt /home/user/.minikube/ca.crt
 COPY client.crt /home/user/.minikube/profiles/minikube/client.crt
 COPY client.key /home/user/.minikube/profiles/minikube/client.key
+
+#HELM
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+RUN chmod 700 get_helm.sh
+RUN ./get_helm.sh
+RUN curl https://get.datree.io | /bin/bash
+RUN apt-get install unzip
