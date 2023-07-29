@@ -66,7 +66,7 @@ pipeline {
         }
 
         stage('Docker image build'){
-         when { expression {  params.action != 'create' } }
+         when { expression {  params.action == 'create' } }
             steps{
                script{
                     def pom = readMavenPom file: 'pom.xml'
