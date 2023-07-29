@@ -7,9 +7,8 @@ def call(){
      )]) {
         dir('helm/') {
             sh '''
-                helmversion=$(helm show chart . | grep version | cut -d: -f 2 | tr -d ' ')
-                tar -czvf helm-${helmversion}.tgz .
-                curl -u $USER:$PASS http://nexus:8081/repository/helm/ --upload-file helm-${helmversion}.tgz -v
+                tar -czvf helm.tgz .
+                curl -u $USER:$PASS http://nexus:8081/repository/helm/ --upload-file helm.tgz -v
             '''
         }
      }
