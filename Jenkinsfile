@@ -1,6 +1,6 @@
 @Library('my-shared-library') _
 
-def repoName = 'docker'
+def repoName = 'localhost:8083'
 
 pipeline {
     agent any
